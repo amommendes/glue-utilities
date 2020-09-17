@@ -1,5 +1,6 @@
 from types import MethodType
 from pyspark.sql import DataFrame
+from pyspark.sql.functions import struct
 from glue_migrator.utils.schema_helper import rename_columns, get_schema_type
 
 def append(l, elem):
