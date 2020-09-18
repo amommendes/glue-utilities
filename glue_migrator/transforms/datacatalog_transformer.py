@@ -1,6 +1,6 @@
 import re
 from glue_migrator.utils.schema_helper import rename_columns
-from glue_migrator.utils.helper_functions import register_methods_to_dataframe
+from glue_migrator.utils.helpers import register_methods_to_dataframe
 from pyspark.sql.functions import lit, array, col, UserDefinedFunction, explode
 from pyspark.sql.types import StringType, StructField, StructType, LongType, ArrayType, MapType, IntegerType
 from pyspark.sql import Row, DataFrame
@@ -31,28 +31,27 @@ class DataCatalogTransformer:
         """
         if not keys or not vals:
             return ""
-        s_keys = []
-        for k in keys:
-            s_keys.append("%s(%s)" % (k['name'], k['type']))
-
-        return ','.join(s_keys) + '=' + ','.join(vals)
+        partitions = []
+        for key, val in zip(keys, vals):
+            partitions.append(key.name + '=' + str(val))
+        return "/".join(partitions)
 
     @staticmethod
     def udf_milliseconds_str_to_timestamp(milliseconds_str):
-        return 0L if milliseconds_str is None else long(milliseconds_str) / 1000
+        return 0 if milliseconds_str is None else int(milliseconds_str) / 1000
 
     @staticmethod
-    def udf_string_list_str_to_list(string):
+    def udf_string_list_str_to_list(string_list):
         """
         udf_string_list_str_to_list, transform string of a specific format into an array
-        :param str: array represented as a string, format should be '<len>%['ele1', 'ele2', 'ele3']'
+        :param string_list: array represented as a string, format should be '<len>%['ele1', 'ele2', 'ele3']'
         :return: array, in this case would be [ele1, ele2, ele3]
         """
         try:
             r = re.compile("\d%\[('\w+',?\s?)+\]")
-            if r.match(str) is None:
+            if r.match(string_list) is None:
                 return []
-            return [s.strip()[1:-1] for s in str.split('%')[1][1:-1].split(',')]
+            return [item.strip()[1:-1] for item in string_list.split('%')[1][1:-1].split(',')]
         except (IndexError, AssertionError):
             return []
 
@@ -449,7 +448,6 @@ class DataCatalogTransformer:
         ms_tbls = self.reformat_tbls(self.extract_tbls(tables, ms_dbs))
 
         ms_partitions = self.reformat_partitions(self.extract_partitions(partitions, ms_dbs, ms_tbls))
-
         (ms_sds, ms_tbls, ms_partitions) = self.extract_sds(ms_tbls, ms_partitions)
         ms_sds = self.reformat_sds(ms_sds)
 

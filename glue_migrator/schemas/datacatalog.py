@@ -1,8 +1,7 @@
-from enum import Enum
 from pyspark.sql.types import StringType, StructField, StructType, LongType, ArrayType, MapType, IntegerType, \
     FloatType, BooleanType
 
-class DataCatalogSchemas(Enum):
+class DataCatalogSchemas:
     DATACATALOG_STORAGE_DESCRIPTOR_SCHEMA = \
         StructType([
             StructField('inputFormat', StringType(), True),
