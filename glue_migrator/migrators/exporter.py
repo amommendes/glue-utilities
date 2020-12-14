@@ -11,3 +11,7 @@ class Exporter(ABC):
     @abstractmethod
     def export_datacatalog(self):
         pass
+
+    @abstractmethod
+    def run(self):
+        pass

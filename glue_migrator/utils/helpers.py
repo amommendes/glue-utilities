@@ -49,6 +49,13 @@ def join_other_to_single_column(df, other, on, how, new_column_name):
     other_combined = other.select([on, struct(other_cols).alias(new_column_name)])
     return df.join(other=other_combined, on=on, how=how)
 
+def get_options(parser, args):
+    parsed, extra = parser.parse_known_args(args[1:])
+    print("Found arguments:", vars(parsed))
+    if extra:
+        print('Found unrecognized arguments:', extra)
+    return vars(parsed)
+
 def register_methods_to_dataframe():
         """
         Register self-defined helper methods to dataframe

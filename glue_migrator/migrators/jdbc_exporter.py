@@ -46,15 +46,13 @@ class JdbcExporter(Exporter):
                                               partitions)
         hive_metastore.export_to_metastore()
 
-    def export(self, options):
+    def run(self, options={}):
         validate_aws_regions(options['region'])
 
         # extract from datacatalog reader
         database_arr = options['database_names'].split(';')
 
         (databases, tables, partitions) = self.read_databases(
-            sql_context=self.sql_context,
-            glue_context=self.glue_context,
             datacatalog_name='datacatalog',
             database_arr=database_arr,
             region=options.get('region') or 'us-east-1'
