@@ -2,6 +2,10 @@ from types import MethodType
 from pyspark.sql import DataFrame
 from pyspark.sql.functions import struct
 from glue_migrator.utils.schema_helper import rename_columns, get_schema_type
+from glue_migrator.utils.logger import Logger
+
+logger = Logger()
+logger.basicConfig()
 
 def append(l, elem):
     """Append list with element and return the list modified"""
@@ -51,9 +55,9 @@ def join_other_to_single_column(df, other, on, how, new_column_name):
 
 def get_options(parser, args):
     parsed, extra = parser.parse_known_args(args[1:])
-    print("Found arguments:", vars(parsed))
+    logger.info("Found arguments:", str(parsed))
     if extra:
-        print('Found unrecognized arguments:', extra)
+        logger.info('Found unrecognized arguments:', extra)
     return vars(parsed)
 
 def register_methods_to_dataframe():

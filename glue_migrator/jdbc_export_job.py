@@ -7,8 +7,11 @@ from glue_migrator.migrators.jdbc_exporter import JdbcExporter
 from glue_migrator.schemas.datacatalog import DataCatalogSchemas
 import sys
 import argparse
+from glue_migrator.utils.logger import Logger
 
-CONNECTION_TYPE_NAME = 'com.amazonaws.services.glue.connections.DataCatalogConnection'
+logger = Logger()
+logger.basicConfig()
+
 
 def datacatalog_migrate_to_s3(databases, tables, partitions, output_path):
 
@@ -41,6 +44,7 @@ def main():
     # spark env
     spark = SparkService()
     (conf, sc, sql_context) = spark.get_spark_env()
+    logger.info("Creating Glue Context")
     glue_context = GlueContext(sc)
 
     exporter = JdbcExporter(glue_context, sc, sql_context)

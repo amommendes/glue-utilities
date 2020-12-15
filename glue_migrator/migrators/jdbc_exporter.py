@@ -4,7 +4,10 @@ from glue_migrator.utils.schema_helper import change_schemas
 from glue_migrator.migrators.exporter import Exporter
 from glue_migrator.utils.validators import validate_aws_regions
 from glue_migrator.services.hive_metastore import HiveMetastore
+from glue_migrator.utils.logger import  Logger
 
+logger = Logger()
+logger.basicConfig()
 
 class JdbcExporter(Exporter):
     def __init__(self, glue_context, spark_context, sql_context):
@@ -18,11 +21,14 @@ class JdbcExporter(Exporter):
         tables = None
         partitions = None
         for database in database_arr:
+            logger.info(f"Reading tables from database {database}")
             dyf = self.glue_context.create_dynamic_frame.from_options(
                 connection_type=self.CONNECTION_TYPE_NAME,
                 connection_options={'catalog.name': datacatalog_name,
                                     'catalog.database': database,
                                     'catalog.region': region})
+
+            logger.info(f"Transforming df tables from database {database}")
             df = transform_catalog_to_df(dyf)
             # filter into databases, tables, and partitions
             dc_databases_no_schema = df.where('type = "database"')
