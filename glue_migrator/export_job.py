@@ -42,12 +42,13 @@ def main():
 
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument(
-        "-p", "--path-connection-file", help="Path to file with connection data"
+        "-p", "--path-connection-file", help="Path to file with database credentials data"
     )
     group.add_argument(
         "-c",
         "--connection-name",
-        help="Glue Connection name for Hive metastore JDBC connection",
+        help="Glue Connection name for Hive metastore JDBC connection. You can only set a connection name"
+             " OR a file with credential data",
     )
 
     parser.add_argument(
