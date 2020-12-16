@@ -8,7 +8,15 @@ By now, only migration from Glue to JDBC is available.
 You need first install glue spark version as described [here](https://github.com/awslabs/aws-glue-libs).
 This will provides `GlueContext` which is necessary in the migration process.
 
-After installation you can clone this repo and run the desired job.
+The lib authenticates in AWS glue based on AWS environment variables:
+
+```shell
+export AWS_ACCESS_KEY_ID="MY_KEY"
+export AWS_SECRET_ACCESS_KEY="MY_SECRET"
+export AWS_SESSION_TOKEN="MY_TOKEN"
+```
+
+After installation, you can clone this repo and run the desired job.
 
 ```shell
 usage: /PATH/TO/PROJECT/glue-utilities/glue_migrator/export_job.py
