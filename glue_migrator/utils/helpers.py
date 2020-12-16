@@ -7,6 +7,7 @@ from glue_migrator.utils.logger import Logger
 logger = Logger()
 logger.basicConfig()
 
+
 def append(l, elem):
     """Append list with element and return the list modified"""
     if elem is not None:
@@ -28,6 +29,7 @@ def remove(l, elem):
 def remove_all(l1, l2):
     return [elem for elem in l1 if elem not in l2]
 
+
 def empty(df):
     return df.rdd.isEmpty()
 
@@ -36,6 +38,7 @@ def drop_columns(df, columns_to_drop):
     for col in columns_to_drop:
         df = df.drop(col)
     return df
+
 
 def join_other_to_single_column(df, other, on, how, new_column_name):
     """
@@ -53,19 +56,23 @@ def join_other_to_single_column(df, other, on, how, new_column_name):
     other_combined = other.select([on, struct(other_cols).alias(new_column_name)])
     return df.join(other=other_combined, on=on, how=how)
 
+
 def get_options(parser, args):
     parsed, extra = parser.parse_known_args(args[1:])
     logger.info("Found arguments:", str(parsed))
     if extra:
-        logger.info('Found unrecognized arguments:', extra)
+        logger.info("Found unrecognized arguments:", extra)
     return vars(parsed)
 
+
 def register_methods_to_dataframe():
-        """
-        Register self-defined helper methods to dataframe
-        """
-        DataFrame.empty = MethodType(empty, None, DataFrame)
-        DataFrame.drop_columns = MethodType(drop_columns, None, DataFrame)
-        DataFrame.rename_columns = MethodType(rename_columns, None, DataFrame)
-        DataFrame.get_schema_type = MethodType(get_schema_type, None, DataFrame)
-        DataFrame.join_other_to_single_column = MethodType(join_other_to_single_column, None, DataFrame)
+    """
+    Register self-defined helper methods to dataframe
+    """
+    DataFrame.empty = MethodType(empty, None, DataFrame)
+    DataFrame.drop_columns = MethodType(drop_columns, None, DataFrame)
+    DataFrame.rename_columns = MethodType(rename_columns, None, DataFrame)
+    DataFrame.get_schema_type = MethodType(get_schema_type, None, DataFrame)
+    DataFrame.join_other_to_single_column = MethodType(
+        join_other_to_single_column, None, DataFrame
+    )
