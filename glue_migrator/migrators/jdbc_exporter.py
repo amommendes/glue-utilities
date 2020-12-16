@@ -74,7 +74,7 @@ class JdbcExporter(Exporter):
             tables,
             partitions,
         )
-        hive_metastore.export_to_metastore()
+        hive_metastore.write_tables_to_metastore()
 
     def run(self, options={}):
         """
