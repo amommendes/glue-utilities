@@ -90,7 +90,7 @@ class JdbcExporter(Exporter):
         (databases, tables, partitions) = self.read_databases(
             datacatalog_name="datacatalog",
             database_arr=database_arr,
-            region=options.get("region") or "us-east-1",
+            region=options.get("region", "us-east-1"),
         )
 
         connection = ConnectionHandler(

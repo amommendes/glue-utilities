@@ -1,4 +1,6 @@
 import re
+import time
+
 from pyspark.sql.functions import col, concat, explode, lit, UserDefinedFunction
 from pyspark.sql import Row
 from pyspark.sql.types import (
@@ -11,7 +13,11 @@ from pyspark.sql.types import (
     StructType,
 )
 
+from glue_migrator.utils.logger import Logger
 from glue_migrator.utils.schema_helper import rename_columns
+
+logger = Logger()
+logger.basicConfig()
 
 
 class DataCatalogTransformer:
@@ -47,7 +53,15 @@ class DataCatalogTransformer:
 
     @staticmethod
     def udf_milliseconds_str_to_timestamp(milliseconds_str):
-        return 0 if milliseconds_str is None else int(milliseconds_str) / 1000
+        if milliseconds_str is None:
+            return 0
+        else:
+            try:
+                return int(milliseconds_str)
+            except TypeError as error:
+                logger.error(f"Error while handling timestamp int: {error}. Returning now()")
+                return int(time.time())
+
 
     @staticmethod
     def udf_string_list_str_to_list(string_list):
