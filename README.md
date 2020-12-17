@@ -52,7 +52,7 @@ python setup.py bdist_egg
 ```
 
 Then run container
->>> Change the volumes paths according to your directory structure, databases, job memory configuration and log path
+> Change the volumes paths according to your directory structure, databases, job memory configuration and log path
 ```shell
 nohup docker run  -d \
 -v /PATH/TO/PROJECT/glue-utilities/glue_migrator/:/home/glue_migrator \
