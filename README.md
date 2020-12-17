@@ -14,6 +14,7 @@ The lib authenticates in AWS glue based on AWS environment variables:
 export AWS_ACCESS_KEY_ID="MY_KEY"
 export AWS_SECRET_ACCESS_KEY="MY_SECRET"
 export AWS_SESSION_TOKEN="MY_TOKEN"
+export AWS_REGION=us-east-1
 ```
 
 After installation, you can clone this repo and run the desired job.
@@ -40,4 +41,28 @@ optional arguments:
   -R REGION, --region REGION
                         AWS region of source Glue DataCatalog, default to "us-
                         east-1"
+```
+
+It is possible to run jobs using [AWS Glue docker container](https://aws.amazon.com/blogs/big-data/developing-aws-glue-etl-jobs-locally-using-a-container/). 
+You can define the AWS environment variables directly into dockerfile or define them [when starting the container](https://docs.docker.com/engine/reference/commandline/run/).
+
+First, build python package:
+```shell
+
+```
+
+```shell
+docker run \
+-e AWS_ACCESS_KEY_ID="MY_KEY" \
+-e AWS_SECRET_ACCESS_KEY="MY_SECRET" \
+-e AWS_SESSION_TOKEN="MY_TOKEN" \
+-e AWS_REGION=us-east-1 \
+-v /PATH/TO/PROJECT/glue-utilities/glue_migrator/:/home/glue_migrator \
+-v /PATH/TO/LOG/logs:/home/glue_migrator/logs \
+-v /PATH/TO/CREDENTIALS/FILE/credentials.json:/home/glue_migrator/resources/credentials.json \
+amazon/aws-glue-libs:glue_libs_1.0.0_image_01 \
+/home/aws-glue-libs/bin/gluesparksubmit /home/glue_migrator/export_job.py --mode 'to-jdbc' \ 
+--database-names "db1;db2" \
+-p /home/glue_migrator/resources/credentials.json
+
 ```
