@@ -13,6 +13,6 @@ setup(
     description="Migrates Glue databases to external Metastore",
     license="APACHE2.0",
     keywords="glue metastore",
-    packages=find_packages(exclude=['tests']),
+    packages=find_packages(where=".", exclude=['tests']),
     long_description=read("README.md"),
 )

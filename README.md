@@ -51,18 +51,26 @@ First, build python package:
 python setup.py bdist_egg
 ```
 
+Then run container
+>>> Change the volumes paths according to your directory structure, databases, job memory configuration and log path
 ```shell
-docker run \
--e AWS_ACCESS_KEY_ID="MY_KEY" \
--e AWS_SECRET_ACCESS_KEY="MY_SECRET" \
--e AWS_SESSION_TOKEN="MY_TOKEN" \
--e AWS_REGION=us-east-1 \
+nohup docker run  -d \
 -v /PATH/TO/PROJECT/glue-utilities/glue_migrator/:/home/glue_migrator \
--v /PATH/TO/LOG/logs:/home/glue_migrator/logs \
--v /PATH/TO/CREDENTIALS/FILE/credentials.json:/home/glue_migrator/resources/credentials.json \
+-v /PATH/TO/PROJECT/glue-utilities/logs:/home/glue_migrator/logs \
+-v /PATH/TO/PROJECT/glue-utilities/credentials.json:/home/glue_migrator/resources/credentials.json \
+-v /PATH/TO/PROJECT/glue-utilities/dist/:/home/glue_migrator/dist/ \
+-e AWS_ACCESS_KEY_ID="KEY_ACCESS" \
+-e AWS_SECRET_ACCESS_KEY="SECRET_KEY" \
+-e AWS_SESSION_TOKEN="TOKEN" \
+-e AWS_REGION=us-east-1 \
+--workdir=/home \
 amazon/aws-glue-libs:glue_libs_1.0.0_image_01 \
-/home/aws-glue-libs/bin/gluesparksubmit /home/glue_migrator/export_job.py --mode 'to-jdbc' \ 
+/home/aws-glue-libs/bin/gluesparksubmit --master local[*] \
+--driver-memory 8g \
+--executor-memory  16g \
+--py-files /home/glue_migrator/dist/glue_migrator-0.0.1-py3.6.egg \
+/home/glue_migrator/export_job.py \
+--mode "to-jdbc" \
 --database-names "db1;db2" \
--p /home/glue_migrator/resources/credentials.json
-
+-p /home/glue_migrator/resources/credentials.json > /tmp/glue_migrator-$(date +%d%m%Y-%H%M%S).log
 ```
