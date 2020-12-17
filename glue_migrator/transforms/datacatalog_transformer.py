@@ -291,11 +291,7 @@ class DataCatalogTransformer:
         )
 
         cond = [ms_sds_for_join.type == "table", ms_sds_for_join.ID == ms_tbls.ID]
-        ms_tbls = (
-            ms_tbls.join(ms_sds_for_join, cond, "inner")
-            .drop("ID")
-            .drop("type")
-        )
+        ms_tbls = ms_tbls.join(ms_sds_for_join, cond, "inner").drop("ID").drop("type")
 
         ms_sds = ms_sds.drop("ID", "type")
 
@@ -395,12 +391,12 @@ class DataCatalogTransformer:
 
         self.extract_from_sds_skewed_info(hms, ms_sds)
         hms.ms_sds = ms_sds.drop(
-                "parameters",
-                "serdeInfo",
-                "bucketColumns",
-                "columns",
-                "skewedInfo",
-                "sortColumns",
+            "parameters",
+            "serdeInfo",
+            "bucketColumns",
+            "columns",
+            "skewedInfo",
+            "sortColumns",
         )
 
     def extract_from_sds_columns(self, ms_sds):

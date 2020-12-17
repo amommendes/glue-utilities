@@ -48,7 +48,7 @@ You can define the AWS environment variables directly into dockerfile or define 
 
 First, build python package:
 ```shell
-
+python setup.py bdist_egg
 ```
 
 ```shell
