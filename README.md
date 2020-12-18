@@ -74,3 +74,7 @@ amazon/aws-glue-libs:glue_libs_1.0.0_image_01 \
 --database-names "db1;db2" \
 -p /home/glue_migrator/resources/credentials.json > /tmp/glue_migrator-$(date +%d%m%Y-%H%M%S).log
 ```
+
+## To-Dos
+- [] Add Catalog Name in "DBS"
+- [] Unit Tests
