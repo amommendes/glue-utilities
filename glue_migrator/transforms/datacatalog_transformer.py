@@ -1,3 +1,4 @@
+import json
 import re
 import time
 
@@ -53,12 +54,20 @@ class DataCatalogTransformer:
 
     @staticmethod
     def udf_milliseconds_str_to_timestamp(milliseconds_str):
+        """
+        milliseconds_str can be a dict in format string like this '{"int":0}'.
+        Then we try to convert into a dict and get the first key
+        :param milliseconds_str:
+        :return:
+        """
         if milliseconds_str is None:
             return 0
         else:
             try:
-                return int(milliseconds_str)
-            except TypeError as error:
+                field = json.loads(milliseconds_str)
+                value = int(list(field.values())[0])
+                return value
+            except Exception as error:
                 logger.error(f"Error while handling timestamp int: {error}. Returning now()")
                 return int(time.time())
 
