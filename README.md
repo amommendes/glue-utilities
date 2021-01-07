@@ -1,12 +1,14 @@
 # Glue Utilities
 
-This repository is based on [aws-glue-samples](https://github.com/aws-samples/aws-glue-samples/tree/master/utilities/Hive_metastore_migration/src).
+This repository is based on [hive metastore migration scripts](https://github.com/aws-samples/aws-glue-samples/tree/master/utilities/Hive_metastore_migration/src) from [aws-glue-samples](https://github.com/aws-samples/aws-glue-samples/).
+
 > Note: By now, only migration from Glue to JDBC Postgres is available.
 
 ## Usage
 
 You need first install glue spark version as described [here](https://github.com/awslabs/aws-glue-libs).
-Glue spark will provides `GlueContext` which is necessary in the migration process, since we need to connect in the Glue database.
+Glue spark will also provides `GlueContext` which is necessary in the migration process, because we need to connect in the Glue database.
+> Apparently AWS does not provide any endpoint to connect in the Glue database, for example, using JDBC.
 
 The lib authenticates in AWS glue based on AWS environment secrets variables:
 
@@ -46,12 +48,12 @@ optional arguments:
 It is possible to run jobs using [AWS Glue docker container](https://aws.amazon.com/blogs/big-data/developing-aws-glue-etl-jobs-locally-using-a-container/). 
 You can define the AWS environment variables directly into your dockerfile or define them [when starting the container](https://docs.docker.com/engine/reference/commandline/run/).
 
-First, build python package:
+First, build the egg python package:
 ```shell
 python setup.py bdist_egg
 ```
 
-Then run container
+Then run the container
 > Change the volumes paths according to your directory structure, databases, job memory configuration and log path
 ```shell
 nohup docker run  -d \
@@ -79,3 +81,6 @@ amazon/aws-glue-libs:glue_libs_1.0.0_image_01 \
 - [ ] Add Catalog Name in "DBS"
 - [ ] Unit Tests
 - [ ] Add drivers to other databases (MySQL, SQL Server, etc)
+- [ ] Migrate all databases at once (probably listing all databases with boto3)
+- [ ] Handle case sensitive databases, as Postgres
+- [ ] Unit tests
