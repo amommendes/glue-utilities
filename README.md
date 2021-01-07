@@ -76,6 +76,6 @@ amazon/aws-glue-libs:glue_libs_1.0.0_image_01 \
 ```
 
 ## To-Dos
-- [] Add Catalog Name in "DBS"
-- [] Unit Tests
-- [] Add drivers to other databases (MySQL, SQL Server, etc)
+- [ ] Add Catalog Name in "DBS"
+- [ ] Unit Tests
+- [ ] Add drivers to other databases (MySQL, SQL Server, etc)
