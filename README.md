@@ -1,7 +1,7 @@
 # Glue Utilities
 
 This repository is based on [aws-glue-samples](https://github.com/aws-samples/aws-glue-samples/tree/master/utilities/Hive_metastore_migration/src).
-By now, only migration from Glue to JDBC is available.
+> Note: By now, only migration from Glue to JDBC Postgres is available.
 
 ## Usage
 
@@ -78,3 +78,4 @@ amazon/aws-glue-libs:glue_libs_1.0.0_image_01 \
 ## To-Dos
 - [] Add Catalog Name in "DBS"
 - [] Unit Tests
+- [] Add drivers to other databases (MySQL, SQL Server, etc)
