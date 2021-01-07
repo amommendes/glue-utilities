@@ -21,6 +21,18 @@ export AWS_REGION=us-east-1
 
 After installation, you can clone this repo and run the desired job.
 
+The connection with the target database can be done by getting connection data directly from Glue Connections (setting `--connection-name` parameter) OR you can define connection data in a json file (setting `--path-connection-file` parameter) with the following properties:
+> Note: If you pass both, you'll get an error.
+
+ ```json
+ {
+  "url":  "jdbc:postgresql://hostname:5432/hive",
+  "user": "michael_scott",
+  "password": "thats-what-she-said"
+}
+ ``` 
+ 
+ 
 ```shell
 usage: /PATH/TO/PROJECT/glue-utilities/glue_migrator/export_job.py
        [-h] (-p PATH_CONNECTION_FILE | -c CONNECTION_NAME) -m {to-s3,to-jdbc}
