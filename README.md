@@ -6,9 +6,9 @@ This repository is based on [aws-glue-samples](https://github.com/aws-samples/aw
 ## Usage
 
 You need first install glue spark version as described [here](https://github.com/awslabs/aws-glue-libs).
-This will provides `GlueContext` which is necessary in the migration process.
+Glue spark will provides `GlueContext` which is necessary in the migration process, since we need to connect in the Glue database.
 
-The lib authenticates in AWS glue based on AWS environment variables:
+The lib authenticates in AWS glue based on AWS environment secrets variables:
 
 ```shell
 export AWS_ACCESS_KEY_ID="MY_KEY"
@@ -44,7 +44,7 @@ optional arguments:
 ```
 
 It is possible to run jobs using [AWS Glue docker container](https://aws.amazon.com/blogs/big-data/developing-aws-glue-etl-jobs-locally-using-a-container/). 
-You can define the AWS environment variables directly into dockerfile or define them [when starting the container](https://docs.docker.com/engine/reference/commandline/run/).
+You can define the AWS environment variables directly into your dockerfile or define them [when starting the container](https://docs.docker.com/engine/reference/commandline/run/).
 
 First, build python package:
 ```shell
